@@ -5,7 +5,7 @@ Provides rate limiting capability over [dropwizard rabbitmq actors bundle](https
 
 ```xml
 <dependency>
-    <groupId>com.github.phaneesh.actors.ratelimit</groupId>
+    <groupId>com.github.phaneesh</groupId>
     <artifactId>dropwizard-actors-ratelimit</artifactId>
     <version>2.0.28-1</version>
 </dependency>
