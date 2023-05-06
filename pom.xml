@@ -18,7 +18,8 @@
 
     <scm>
         <connection>scm:git:https://github.com/phaneesh/dropwizard-actors-ratelimiting.git</connection>
-        <developerConnection>scm:git:https://github.com/phaneesh/dropwizard-actors-ratelimiting.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/phaneesh/dropwizard-actors-ratelimiting.git
+        </developerConnection>
         <tag>HEAD</tag>
         <url>https://github.com/phaneesh/dropwizard-actors-ratelimiting</url>
     </scm>
@@ -41,9 +42,10 @@
     </developers>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <dropwizard.version>2.0.28</dropwizard.version>
         <dropwizard-rabbitmq-actors.version>2.0.28-7</dropwizard-rabbitmq-actors.version>
         <bucket4j.version>8.2.0</bucket4j.version>
         <testcontainer.version>1.0.14</testcontainer.version>
@@ -53,6 +55,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-core</artifactId>
+            <version>${dropwizard.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>io.appform.dropwizard.actors</groupId>
             <artifactId>dropwizard-rabbitmq-actors</artifactId>
@@ -90,5 +98,23 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <release>17</release>
+                        <source>17</source>
+                        <target>17</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
