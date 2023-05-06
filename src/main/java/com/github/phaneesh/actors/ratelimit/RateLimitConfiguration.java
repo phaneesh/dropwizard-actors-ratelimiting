@@ -1,5 +1,6 @@
 package com.github.phaneesh.actors.ratelimit;
 
+import io.github.bucket4j.TokensInheritanceStrategy;
 import lombok.*;
 
 import java.time.temporal.ChronoUnit;
@@ -32,5 +33,8 @@ public class RateLimitConfiguration {
 
     @Builder.Default
     private RateLimitType rateLimitType = RateLimitType.THROTTLE;
+
+    @Builder.Default
+    private TokensInheritanceStrategy tokensInheritanceStrategy = TokensInheritanceStrategy.AS_IS;
 
 }

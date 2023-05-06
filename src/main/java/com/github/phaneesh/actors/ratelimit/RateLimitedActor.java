@@ -55,5 +55,14 @@ public abstract class RateLimitedActor<MessageType extends Enum<MessageType>, Me
         }
     }
 
+    public void reconfigure(RateLimitConfiguration rateLimitConfiguration) {
+        Refill refill = Refill.greedy(rateLimitConfiguration.getRefillRate(),
+                Duration.of(rateLimitConfiguration.getRateLimitPeriod(), rateLimitConfiguration.getRateLimitPeriodUnit()));
+        BucketConfiguration bucketConfiguration = BucketConfiguration.builder()
+                .addLimit(Bandwidth.classic(rateLimitConfiguration.getRateLimit(), refill))
+                .build();
+        bucket.replaceConfiguration(bucketConfiguration, rateLimitConfiguration.getTokensInheritanceStrategy());
+    }
+
     protected abstract boolean handleWithRateLimit(Message message, MessageMetadata messageMetadata) throws Exception;
 }
