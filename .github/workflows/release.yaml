@@ -1,0 +1,26 @@
+name: Release
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Maven Settings
+        uses: s4u/maven-settings-action@v2.8.0
+        with:
+          servers: |
+            [{
+                "id": "clojars",
+                "username": "${{ secrets.CLOJARS_USERNAME }}",
+                "password": "${{ secrets.CLOJARS_PASSWORD }}"
+            }]
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots package
