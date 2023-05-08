@@ -31,6 +31,10 @@ public class RateLimitConfiguration {
 
     private int refillRate;
 
+    private int refillPeriod = 1;
+
+    private TemporalUnit refillPeriodUnit = ChronoUnit.SECONDS;
+
     @Builder.Default
     private RateLimitType rateLimitType = RateLimitType.THROTTLE;
 
