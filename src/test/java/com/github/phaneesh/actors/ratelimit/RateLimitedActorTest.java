@@ -1,5 +1,8 @@
 package com.github.phaneesh.actors.ratelimit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.hazelcast.config.Config;
@@ -15,17 +18,11 @@ import io.appform.dropwizard.actors.config.Broker;
 import io.appform.dropwizard.actors.config.RMQConfig;
 import io.appform.dropwizard.actors.connectivity.RMQConnection;
 import io.appform.dropwizard.actors.exceptionhandler.ExceptionHandlingFactory;
+import io.appform.dropwizard.actors.observers.TerminalRMQObserver;
 import io.appform.dropwizard.actors.retry.RetryStrategyFactory;
 import io.appform.testcontainers.rabbitmq.config.RabbitMQContainerConfiguration;
 import io.appform.testcontainers.rabbitmq.container.RabbitMQContainer;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import lombok.val;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.temporal.ChronoUnit;
@@ -33,9 +30,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.Executors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 @Slf4j
 public class RateLimitedActorTest {
@@ -69,10 +69,12 @@ public class RateLimitedActorTest {
         rabbitMQContainer();
         val config = getRMQConfig();
         connectionRegistry = new  ConnectionRegistry(app.getEnvironment(),
-                (name, coreSize) -> Executors.newFixedThreadPool(coreSize),  config, TtlConfig.builder().build());
+                (name, coreSize) -> Executors.newFixedThreadPool(coreSize),  config, TtlConfig.builder().build(),
+                new TerminalRMQObserver());
         connectionRegistry.start();
         rmqConnection = new RMQConnection("test-conn", getRMQConfig(),
-                Executors.newSingleThreadExecutor(), app.getEnvironment(), TtlConfig.builder().build());
+                Executors.newSingleThreadExecutor(), app.getEnvironment(), TtlConfig.builder().build(),
+                new TerminalRMQObserver());
         rmqConnection.start();
         hazelcastInstance = getHazelcastInstance();
         testBucket = hazelcastInstance.getMap("test");

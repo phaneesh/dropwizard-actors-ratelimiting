@@ -1,7 +1,7 @@
 package com.github.phaneesh.actors.ratelimit;
 
-import io.dropwizard.Application;
-import io.dropwizard.setup.Environment;
+import io.dropwizard.core.Application;
+import io.dropwizard.core.setup.Environment;
 
 public class RateLimitedActorTestApplication extends Application<RateLimitedActorTestAppConfiguration> {
 

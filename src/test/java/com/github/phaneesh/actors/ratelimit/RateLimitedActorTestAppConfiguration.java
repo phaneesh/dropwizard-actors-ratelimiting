@@ -1,7 +1,7 @@
 package com.github.phaneesh.actors.ratelimit;
 
 
-import io.dropwizard.Configuration;
+import io.dropwizard.core.Configuration;
 
 public class RateLimitedActorTestAppConfiguration extends Configuration {
 
